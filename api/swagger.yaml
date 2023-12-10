@@ -1,0 +1,334 @@
+openapi: 3.0.3
+
+info:
+  version: "1.0.0"
+  title: "File Processor API"
+  description: "API for processing files, user and staff endpoints."
+
+servers:
+  - url: "http://localhost:8080"
+
+paths:
+  /fileProcess:
+    post:
+      summary: "Process a file"
+      tags:
+      
+        - User
+      security:
+        - BearerAuth: []
+        
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                routines:
+                  type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                Total_lines: 42
+                Total_words: 980
+                Total_puncuations: 149
+                Total_vowels: 1709
+                Execution_Time: 0.0017095
+                No_of_Routines: 5
+                file_name: "file.txt"
+                username: "iqra"
+
+  /user/login:
+    post:
+      summary: "User login"
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDEyNDM4NzYsInJvbGUiOiJ1c2VyIiwidXNlcm5hbWUiOiJpcXJhIn0.pdAbM6j6UN3VR3GA7u6AVZYPSAHqr4cL4xMW4zkFtNg"
+
+  /user/signup:
+    post:
+      summary: "User signup"
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example: "User created successfully"
+
+  /user/user_processes:
+    get:
+      summary: "Get user processes"
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                - id: 35
+                  username: "iqra"
+                  file_name: "file3.txt"
+                  Total_lines: 1
+                  Total_words: 6
+                  Total_puncuations: 0
+                  Total_vowels: 9
+                  Execution_Time: 0.0018289
+                  No_of_Routines: 5
+                - id: 36
+                  username: "iqra"
+                  file_name: "file.txt"
+                  Total_lines: 42
+                  Total_words: 980
+                  Total_puncuations: 149
+                  Total_vowels: 1709
+                  Execution_Time: 0.0017095
+                  No_of_Routines: 5
+
+  /user/get_process/{processId}:
+    get:
+      summary: "Get user process by ID"
+      tags:
+        - User
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: processId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                - id: 35
+                  username: "iqra"
+                  file_name: "file3.txt"
+                  Total_lines: 1
+                  Total_words: 6
+                  Total_puncuations: 0
+                  Total_vowels: 9
+                  Execution_Time: 0.0018289
+                  No_of_Routines: 5
+                - id: 36
+                  username: "iqra"
+                  file_name: "file.txt"
+                  Total_lines: 42
+                  Total_words: 980
+                  Total_puncuations: 149
+                  Total_vowels: 1709
+                  Execution_Time: 0.0017095
+                  No_of_Routines: 5
+
+  /staff/staffLogin:
+    post:
+      summary: "Staff login"
+      tags:
+        - Staff
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDEyNDM4MzcsInJvbGUiOiJhZG1pbiIsInVzZXJuYW1lIjoiaGFtemEifQ.C-n9Pt3AOduNzWHcGRRoVzg9TY6RXVZ5QiCdVztXkFA"
+
+  /staff/statistics:
+    post:
+      summary: "Get statistics for a file"
+      tags:
+        - Staff
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                filename:
+                  type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                average_execution_time: 0.002902775
+
+  /staff/get_all_processes:
+    get:
+      summary: "Get all staff processes"
+      tags:
+        - Staff
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                - id: 30
+                  username: "zain"
+                  file_name: "file.txt"
+                  Total_lines: 42
+                  Total_words: 979
+                  Total_puncuations: 149
+                  Total_vowels: 1707
+                  Execution_Time: 0.0020424
+                  No_of_Routines: 10
+                - id: 31
+                  username: "zain"
+                  file_name: "file3.txt"
+                  Total_lines: 1
+                  Total_words: 6
+                  Total_puncuations: 0
+                  Total_vowels: 9
+                  Execution_Time: 0.0018565
+                  No_of_Routines: 10
+                - id: 32
+                  username: "zain"
+                  file_name: "file3.txt"
+                  Total_lines: 1
+                  Total_words: 6
+                  Total_puncuations: 1
+                  Total_vowels: 10
+                  Execution_Time: 0.0017296
+                  No_of_Routines: 1
+  /staff/get_processes_by_username:
+    get:
+      summary: "Get user process by name"
+      tags:
+        - Staff
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                - id: 30
+                  username: "zain"
+                  file_name: "file.txt"
+                  Total_lines: 42
+                  Total_words: 979
+                  Total_puncuations: 149
+                  Total_vowels: 1707
+                  Execution_Time: 0.0020424
+                  No_of_Routines: 10
+                - id: 31
+                  username: "zain"
+                  file_name: "file3.txt"
+                  Total_lines: 1
+                  Total_words: 6
+                  Total_puncuations: 0
+                  Total_vowels: 9
+                  Execution_Time: 0.0018565
+                  No_of_Routines: 10
+                - id: 32
+                  username: "zain"
+                  file_name: "file3.txt"
+                  Total_lines: 1
+                  Total_words: 6
+                  Total_puncuations: 1
+                  Total_vowels: 10
+                  Execution_Time: 0.0017296
+                  No_of_Routines: 1
+        
+
+
+     
+  /refresh_token:
+    post:
+      summary: "refresh token"
+    
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+             
+                refreshtoken:
+                  type: string 
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              example:
+                - access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MDEzNDY1MzksInJvbGUiOiJ1c2VyIiwidXNlcm5hbWUiOiJpcXJhIn0.49RMORYbE0qlx84tbnwnzBivp_D1dmicJZZo1Dhy4BY"
+                 
+      
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
