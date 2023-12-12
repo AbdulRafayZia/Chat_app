@@ -26,15 +26,8 @@ func Routes() *mux.Router {
 	// Join a room
 	r.HandleFunc("/join-room", controller.JoinRoomHandler ).Methods("POST")
 
-	// Room chat
-	r.HandleFunc("/room/{roomID}",controller.RoomChatHandler ).Methods("POST")
-
-	// Broadcast
-	// r.HandleFunc("/broadcast", controller.BroadcastHandler).Methods("POST")
-
-	// Private chat
-	r.HandleFunc("/private/{recipientID}", controller.PrivateChatHandler).Methods("POST")
-	r.HandleFunc("/refresh_token", controller.RefreshToken).Methods("POST")
+	
+	r.HandleFunc("/refresh-token", controller.RefreshToken).Methods("POST")
 
 	return r
 

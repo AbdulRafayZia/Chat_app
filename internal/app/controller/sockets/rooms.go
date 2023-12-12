@@ -25,7 +25,7 @@ func(s *Server) BroadcastToRoom(sender *utils.User, msg utils.Message) {
 		if user.Username == sender.Username {
 			continue // Skip sending the message to the sender
 		}
-		err := user.Connection.WriteJSON(message)
+		err := user.Connection.WriteJSON(message.Content)
 		if err != nil {
 			fmt.Println("Error sending broadcast message to", user.Username, ":", err)
 		}
@@ -58,7 +58,7 @@ func (s *Server) JoinRoom(user *utils.User, roomName string) {
 
     // Notify the user that they have joined the room
     if user.Connection != nil {
-        err := user.Connection.WriteJSON(room.Users[user])
+        err := user.Connection.WriteJSON(room.Users[user].Content)
         if err != nil {
             fmt.Println("Error sending room join notification to", user.Username, ":", err)
         }
@@ -88,7 +88,7 @@ func (s *Server) CreateRoom(user *utils.User, roomName string) {
     }
 
     // Send room creation notification to the user
-    err := user.Connection.WriteJSON(room.Users[user])
+    err := user.Connection.WriteJSON(room.Users[user].Content)
     if err != nil {
         fmt.Println("Error sending room creation notification to", user.Username, ":", err)
     }

@@ -98,7 +98,7 @@ func (s *Server) SendPrivateMessage(sender *utils.User, msg utils.Message) {
 
 	message := utils.Message{
 		Recipient: msg.Recipient, // Indicate that it's a private message from the sender
-		Content:   fmt.Sprintf("(Private) %s: %s", msg.Recipient, msg.Content),
+		Content:   fmt.Sprintf("(Private) %s: %s", sender.Username, msg.Content),
 	}
 
 	// Find the recipient user

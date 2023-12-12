@@ -15,7 +15,7 @@ var (
 	port     = getEnvInt("DB_PORT", 5432)
 	user     = getEnv("DB_USER", "postgres")
 	password = getEnv("DB_PASSWORD", "1234567890")
-	dbname   = getEnv("DB_NAME", "mywebapp")
+	dbname   = getEnv("DB_NAME", "chat_app")
 	connStr  = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 )
