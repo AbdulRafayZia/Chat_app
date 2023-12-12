@@ -11,7 +11,7 @@ import (
 	database "github.com/AbdulRafayZia/Gorilla-mux/internal/infrastructure/Database"
 )
 
-func GetUsersProcessses(w http.ResponseWriter, r *http.Request) {
+func RoomChatHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	tokenString := r.Header.Get("Authorization")
 	if tokenString == "" {

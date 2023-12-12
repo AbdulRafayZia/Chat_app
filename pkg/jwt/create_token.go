@@ -8,7 +8,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-func CreateToken(username string, role string) (string,string, error) {
+func CreateToken(username string, role string ,id uint) (string,string, error) {
 	accessTokenExpiration := time.Now().Add(1 * time.Minute).Unix()
 	refreshTokenExpiration := time.Now().Add(7 * 24 * time.Hour).Unix()
 
@@ -16,6 +16,7 @@ func CreateToken(username string, role string) (string,string, error) {
 		jwt.MapClaims{
 			"username": username,
 			"role":     role,
+			"id":id,
 			"exp":      accessTokenExpiration,
 		})
 	accesstokenString, err := accesstoken.SignedString(utils.SecretKey)
@@ -26,7 +27,9 @@ func CreateToken(username string, role string) (string,string, error) {
 		jwt.MapClaims{
 			"username": username,
 			"role":     role,
+			"id":id,
 			"exp":      refreshTokenExpiration,
+
 		})
 	refreshtokenString, err := refreshToken.SignedString(utils.SecretKey)
 	if err != nil {

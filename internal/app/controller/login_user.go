@@ -15,9 +15,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	var request utils.Credentials
 	json.NewDecoder(r.Body).Decode(&request)
-	role, err := database.GetRole(request.Username)
+	role,id, err := database.GetRole(request.Username)
 	if err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
+		fmt.Println(err)
 		http.Error(w, "unauthozied username", http.StatusUnauthorized)
 		return
 
@@ -31,7 +32,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	accessToken, refreshToken, err := jwt.CreateToken(request.Username, role)
+	accessToken, refreshToken, err := jwt.CreateToken(request.Username, role , id)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		http.Error(w, "error in generating toke ", http.StatusInternalServerError)

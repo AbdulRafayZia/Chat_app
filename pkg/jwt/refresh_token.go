@@ -20,7 +20,7 @@ func RefreshToken(refreshTokenString string) (string, error) {
 	}
 
 	// Create a new access token
-	newAccessToken, _, err := CreateToken(claims.Username , claims.Role)
+	newAccessToken, _, err := CreateToken(claims.Username , claims.Role , claims.Id)
 	if err != nil {
 		return "", err
 	}

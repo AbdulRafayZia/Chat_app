@@ -22,7 +22,4 @@ func Execute() {
 	originsOk := handlers.AllowedOrigins([]string{"*"})
 	methodsOk := handlers.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
 	http.ListenAndServe(":8080", handlers.CORS(originsOk, headersOk, methodsOk)(r))
-
-	http.ListenAndServe(fmt.Sprintf(":%d", port), r)
-
 }

@@ -4,22 +4,20 @@ package sockets
 
 import (
 	"github.com/AbdulRafayZia/Gorilla-mux/utils"
-	"github.com/gorilla/websocket"
 )
 
-type BroadCast struct {
-	Sender  *websocket.Conn
-	Message utils.Message
-}
-
 type Server struct {
-	Client      map[*websocket.Conn]string
-	PrivateChat chan utils.Message
-	Randoms     chan BroadCast
+	Client map[string]*utils.User
+	Rooms  map[string]*Members
+}
+type Members struct {
+	
+	Users    map[*utils.User]utils.Message
 }
 
 func (s *Server) InitilzeServer() {
-	s.Client = make(map[*websocket.Conn]string)
-	s.PrivateChat = make(chan utils.Message)
-	s.Randoms = make(chan BroadCast)
+	s.Client = make(map[string]*utils.User)
+	s.Rooms=make(map[string]*Members)
+
+	// s.Randoms = make(chan BroadCast)
 }

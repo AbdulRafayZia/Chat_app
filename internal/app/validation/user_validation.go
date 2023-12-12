@@ -8,7 +8,7 @@ import (
 )
 
 func CheckUserValidity(w http.ResponseWriter, r *http.Request, request utils.Credentials) (bool, error) {
-	role, err := database.GetRole(request.Username)
+	role,_, err := database.GetRole(request.Username)
 	if err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
 		http.Error(w, "unauthozied username", http.StatusUnauthorized)
