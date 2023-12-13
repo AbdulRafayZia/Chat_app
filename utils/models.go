@@ -12,7 +12,11 @@ type Message struct {
 	Recipient string `json:"recipient"`
 	Type      string `json:"type"`
 }
+type Token struct {
+	AccessToken string `json:"acessToken"`
+	RefreshToken string `json:"refreshToken"`
 
+}
 type Credentials struct {
 	Username string `json:"username"`
 	Password string `json:"password"`

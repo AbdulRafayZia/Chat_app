@@ -68,6 +68,8 @@ func (s *Server) HandleConnections(w http.ResponseWriter, r *http.Request) {
 			s.BroadcastToRoom(&client, msg)
 		case "create_room":
 			s.CreateRoom(&client, msg.RoomName)
+		default:
+			conn.WriteJSON("please enter the correct type!")
 		}
 	}
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/AbdulRafayZia/Gorilla-mux/utils"
 )
 
-var rooms = make(map[string]map[*utils.User]struct{})
+
 
 func (s *Server) BroadcastToRoom(sender *utils.User, msg utils.Message) {
 	// Send the message to all users in the room
@@ -35,8 +35,6 @@ func (s *Server) JoinRoom(user *utils.User, roomName string) {
 	user.Mu.Lock()
 	defer user.Mu.Unlock()
 
-	// Leave existing rooms before joining the new room
-	// LeaveAllRooms(user)
 
 	// Join the room
 
@@ -79,6 +77,7 @@ func (s *Server) CreateRoom(user *utils.User, roomName string) {
 		}
 		s.Rooms[roomName] = room
 	}
+    fmt.Println(room)
 
 	// Add the user to the room
 	room.Users[user] = utils.Message{
@@ -94,22 +93,22 @@ func (s *Server) CreateRoom(user *utils.User, roomName string) {
 	}
 }
 
-func LeaveAllRooms(user *utils.User) {
-	user.Mu.Lock()
-	defer user.Mu.Unlock()
+// func LeaveAllRooms(user *utils.User) {
+// 	user.Mu.Lock()
+// 	defer user.Mu.Unlock()
 
-	for roomName := range user.Rooms {
-		delete(rooms[roomName], user)
-		// Notify the user that they have left the room
-		notification := utils.Message{
-			Recipient: "notification",
-			Content:   fmt.Sprintf("You have left room %s", roomName),
-			RoomName:  roomName,
-		}
-		err := user.Connection.WriteJSON(notification)
-		if err != nil {
-			fmt.Println("Error sending room leave notification to", user.Username, ":", err)
-		}
-		delete(user.Rooms, roomName)
-	}
-}
+// 	for roomName := range user.Rooms {
+// 		delete(rooms[roomName], user)
+// 		// Notify the user that they have left the room
+// 		notification := utils.Message{
+// 			Recipient: "notification",
+// 			Content:   fmt.Sprintf("You have left room %s", roomName),
+// 			RoomName:  roomName,
+// 		}
+// 		err := user.Connection.WriteJSON(notification)
+// 		if err != nil {
+// 			fmt.Println("Error sending room leave notification to", user.Username, ":", err)
+// 		}
+// 		delete(user.Rooms, roomName)
+// 	}
+// }
