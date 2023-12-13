@@ -13,6 +13,15 @@ type Message struct {
 	Type      string `json:"type"`
 }
 
+type Credentials struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+	ID       int    `json:"id"`
+	Role     string `json:"role"`
+
+}
+
+
 type Room struct {
 	RoomID   string
 	RoomName string

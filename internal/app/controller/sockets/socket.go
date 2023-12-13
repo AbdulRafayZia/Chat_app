@@ -59,9 +59,9 @@ func (s *Server) HandleConnections(w http.ResponseWriter, r *http.Request) {
 
 		switch msg.Type {
 		case "broadcast":
-			s.BroadcastToAll(&user, msg.Content)
+			s.BroadcastToAll(&client, msg.Content)
 		case "private":
-			s.SendPrivateMessage(&user, msg)
+			s.SendPrivateMessage(&client, msg)
 		case "join_room":
 			s.JoinRoom(&client, msg.RoomName)
 		case "room_chat":
@@ -94,44 +94,6 @@ func GetCurrentUser(w http.ResponseWriter, r *http.Request) (utils.User, error) 
 
 }
 
-func (s *Server) SendPrivateMessage(sender *utils.User, msg utils.Message) {
 
-	message := utils.Message{
-		Recipient: msg.Recipient, // Indicate that it's a private message from the sender
-		Content:   fmt.Sprintf("(Private) %s: %s", sender.Username, msg.Content),
-	}
 
-	// Find the recipient user
-	recipient, exists := s.Client[msg.Recipient]
-	if !exists {
-		fmt.Println("Recipient not found:", msg.Recipient)
-		return
-	}
 
-	// Send the private message to the recipient
-	err := recipient.Connection.WriteJSON(message.Content)
-	if err != nil {
-		fmt.Println("Error sending private message to", recipient.Username, ":", err)
-	}
-}
-
-func (s *Server) BroadcastToAll(sender *utils.User, msg string) {
-	message := utils.Message{
-		Recipient: "broadcast",
-		Content:   fmt.Sprintf("(Broadcast) %s: %s", sender.Username, msg),
-	}
-
-	// Loop through all connected users
-	for _, u := range s.Client {
-		// Skip sending the message to the sender
-		if u.Username == sender.Username {
-			continue
-		}
-
-		// Send the message to each connected user
-		err := u.Connection.WriteJSON(message.Content)
-		if err != nil {
-			fmt.Println("Error sending broadcast message to", u.Username, ":", err)
-		}
-	}
-}

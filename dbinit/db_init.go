@@ -18,7 +18,7 @@ func Init() {
 	defer tempDB.Close()
 
 	// Run your queries here
-	_, err = tempDB.Exec("CREATE EXTENSION IF NOT EXISTS " + dbname+ ";")
+	_, err = tempDB.Exec("CREATE EXTENSION IF NOT EXISTS " + dbname + ";")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -26,5 +26,5 @@ func Init() {
 	// Other queries as needed
 
 	// Assign the temporary DB to the global variable for later use
-	
+
 }
