@@ -11,11 +11,11 @@ import (
 )
 
 var (
-	host     = getEnv("DB_HOST", "localhost")
+	host     = getEnv("DB_HOST", "postgres-database")
 	port     = getEnvInt("DB_PORT", 5432)
 	user     = getEnv("DB_USER", "postgres")
 	password = getEnv("DB_PASSWORD", "1234567890")
-	dbname   = getEnv("DB_NAME", "chat_app")
+	dbname   = getEnv("DB_NAME", "postgres")
 	connStr  = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
 		host, port, user, password, dbname)
 )

@@ -22,6 +22,8 @@ func Routes() *mux.Router {
 	r.HandleFunc("/user/signup", controller.CreateUserHandler).Methods("POST")
 
 	r.HandleFunc("/refresh-token", controller.RefreshToken).Methods("POST")
+	r.HandleFunc("/migrate", controller.CreateTable).Methods("GET")
+
 
 	return r
 

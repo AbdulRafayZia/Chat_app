@@ -18,7 +18,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	role,id, err := database.GetRole(request.Username)
 	if err != nil {
 		w.WriteHeader(http.StatusUnauthorized)
-		fmt.Println(err)
+		
 		http.Error(w, "unauthozied username", http.StatusUnauthorized)
 		return
 
