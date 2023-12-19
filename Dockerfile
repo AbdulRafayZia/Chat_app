@@ -3,6 +3,8 @@ FROM golang:latest as builder
 
 # Set the working directory inside the container
 WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
 
 # Copy the local package files to the container's workspace
 COPY . .
@@ -19,10 +21,13 @@ ENV      POSTGRES_PASSWORD=${DB_PASSWORD}\
          POSTGRES_DB=${DB_NAME}
 
 # Copy the built Go application from the builder stage to the current stage
+FROM builder
+WORKDIR /app
+
 COPY --from=builder /app/main /app/main
 
 # Set the working directory inside the container
-WORKDIR /app
 
+EXPOSE 8080
 # Command to run the application
 CMD ["./main"]

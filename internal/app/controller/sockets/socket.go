@@ -95,7 +95,3 @@ func GetCurrentUser(w http.ResponseWriter, r *http.Request) (utils.User, error) 
 	return user, nil
 
 }
-
-
-
-

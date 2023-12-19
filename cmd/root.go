@@ -10,8 +10,18 @@ import (
 	_ "github.com/lib/pq"
 )
 
+
+func healthHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+}
+
+func readinessHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+}
 func Execute() {
 	r := routes.Routes()
+	r.HandleFunc("/health", healthHandler)
+	r.HandleFunc("/readiness", readinessHandler)
 	port := 8080
 	utils.Rafay()
 
