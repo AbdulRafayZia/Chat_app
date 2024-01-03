@@ -10,6 +10,3 @@ data:
   DB_USER: postgres
   DB_PASSWORD: "1234567890"
   DB_NAME: postgres
-
-
-
