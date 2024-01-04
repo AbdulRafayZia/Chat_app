@@ -1,7 +1,7 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: postgres-primary-pv-volume  # Sets PV's name for primary
+  name: postgres-pv-volume  # Sets PV's name
   labels:
     type: local  # Sets PV's type to local
     app: postgres
@@ -10,50 +10,20 @@ spec:
   capacity:
     storage: 5Gi # Sets PV Volume
   accessModes:
-    - ReadWriteOnce  # Use ReadWriteOnce for primary
+    - ReadWriteMany
   hostPath:
-    path: "/mnt/data-primary"  # Adjust the path for primary
+    path: "/mnt/data"
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: postgres-primary-pv-claim  # Sets name of PVC for primary
+  name: postgres-pv-claim  # Sets name of PVC
   labels:
     app: postgres
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteOnce  # Sets read and write access for primary
+    - ReadWriteMany  # Sets read and write access
   resources:
     requests:
-      storage: 5Gi  # Sets volume size for primary
----
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: postgres-standby-pv-volume  # Sets PV's name for standby
-  labels:
-    type: local  # Sets PV's type to local
-    app: postgres
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 5Gi # Sets PV Volume
-  accessModes:
-    - ReadOnlyMany  # Use ReadOnlyMany for standby
-  hostPath:
-    path: "/mnt/data-standby"  # Adjust the path for standby
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: postgres-standby-pv-claim  # Sets name of PVC for standby
-  labels:
-    app: postgres
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadOnlyMany  # Sets read-only access for standby
-  resources:
-    requests:
-      storage: 5Gi  # Sets volume size for standby
+      storage: 5Gi  # Sets volume size

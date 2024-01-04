@@ -1,10 +1,9 @@
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: postgres
+  name: postgres  # Sets Deployment name
 spec:
   replicas: 2
-  serviceName: postgres
   selector:
     matchLabels:
       app: postgres
@@ -15,23 +14,18 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: postgres:10.1
+          image: postgres:10.1 # Sets Image
           imagePullPolicy: "IfNotPresent"
           ports:
-            - containerPort: 5432
+            - containerPort: 5432  # Exposes container port
           envFrom:
             - configMapRef:
                 name: postgres-config
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgredb
-  volumeClaimTemplates:
-    - metadata:
-        name: postgredb
-      spec:
-        storageClassName: manual
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 5Gi
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+
